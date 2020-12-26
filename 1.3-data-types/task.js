@@ -18,10 +18,10 @@ function calculateTotalMortgage(percent, contribution, amount, date) {
     };
     let debt = amountNumber - contributionNumder;
     let month = (date.getFullYear() - new Date().getFullYear()) * 12 - new Date().getMonth() + date.getMonth();
-    let p = percent / 100 / 12;
+    let p = percentNumber / 100 / 12;
     let pay = debt * (p + p /(((1 + p)**month)- 1));
-    let totalAmount = pay * month;
-    return totalAmount.toFixed(2);
+    let totalAmount = parseFloat((pay * month).toFixed(2));
+    return totalAmount;
     
 }
     
