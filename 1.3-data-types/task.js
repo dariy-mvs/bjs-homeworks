@@ -1,8 +1,9 @@
 'use strict';
 
 function calculateTotalMortgage(percent, contribution, amount, date) {
-    let mistake = (variable, variableName) => {
-        return alert(`Параметр ${variableName} содержит неправильное значение ${variable}`);
+    const mistake = (variable, variableName) => {
+        alert(`Параметр ${variableName} содержит неправильное значение ${variable}`);
+        return;
     };
     const percentNumber = parseFloat(percent);
     if (Number.isNaN(percentNumber) === true) {
