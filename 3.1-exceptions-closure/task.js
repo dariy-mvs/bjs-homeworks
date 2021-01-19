@@ -50,18 +50,13 @@ function getTriangle(a, b, c) {
   try {
     return new Triangle(a, b, c)
   } catch(err) {
-    const objectError = {
-      getArea() {
-        return 'Ошибка! Треугольник не существует';
-      },
-      getPerimeter() {
-        return 'Ошибка! Треугольник не существует';
+    
+    return {
+      getArea: () => 'Ошибка! Треугольник не существует',
+      getPerimeter: () => 'Ошибка! Треугольник не существует',
       }
-    
     }
-    
-    return objectError
     }
-}
+
 
 
