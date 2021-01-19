@@ -62,16 +62,6 @@ function getTriangle(a, b, c) {
     
     return a
     }
-    
-    
- 
 }
-
-
-
-// if(this.sideOne > this.b + this.c || this.b > this.c + this.sideOne || this.c > this.b + this.sideOne) {
-//   const err = new Error('Треугольник с такими сторонами не существует');
-//   throw err;
-// }
 
 
