@@ -19,11 +19,10 @@ function getAverageMark(marks){
     if (marks.length > 5) {
         console.log('Отметок больше 5. Для подсчёта возьмутся первые 5 отметок.');
          marks.splice(5);
-        }
-        let add = (accumulator, a) => {
-        return accumulator + a;
         };
-        let sum = marks.reduce(add,0);
+    let sum = marks.reduce((accumulator, a) => {
+        return accumulator + a;
+        });
         
     return sum / marks.length; 
 }
