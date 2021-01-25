@@ -22,23 +22,22 @@ function getReliableWeaponsNames(durability) {
 };
 
 function getTotalDamage() {
-  return weapons.reduce((acc, weapon) => {return acc = acc + weapon.attack}, 0)
+  return weapons.reduce((acc, weapon) => acc = acc + weapon.attack, 0)
 };
 
 function getValuestCountToSumValues(arr, sum) { 
-  let newArr = [];
-  for (let i = 0; i <= arr.length; i++) {
-    newArr = arr.slice(0,i);
+ 
+  return arr.reduce((acc, value) => {
+    if(acc.summ < sum) {
+      return {
+        summ: acc.summ + value,
+        count: acc.count + 1
+      };
+    } 
+    return acc
+  }, {summ: 0, count: 0}).count;
+}
   
-    let checkSum = newArr.reduce((acc, a) => {return acc + a}, 0);
-
-    if (checkSum >= sum) break;
-  }
-  console.log(newArr);
-  return newArr.length;
-} 
-
-// Недавно видела статью 2017 года, со смыслом "хороший джедай в работе с массивами for не использует". Думала, как можно реализовать это проще, и не используя циклы. Пробовала останавливать reduce, но не смогла связать условие if с переменной-аккумулятором, ловила ошибку. Никаких ценных идей по этому поводу в голову не пришло. Было бы интересно посмотреть как это должно реализовываться. Спасибо!
 
 // Задача 2
 
@@ -57,13 +56,18 @@ function sum(...args) {
 }
 
 function compareArrays( arr1, arr2 ) {
-  return arr1.every((currentValue, item) => {
-    if (currentValue === arr2[item] && arr1.length === arr2.length) return true;
-  })
+  if (arr1.length === arr2.length) {
+    
+    return arr1.every((currentValue, item) => currentValue === arr2[item]);
+  
+  } else return false;
+  
 }
-let newArr = []
+
+
+
 function memorize(fn, limit) {
-  let memory = newArr; // Сама понимаю, что запись странная. Но, в задании сказано, что массив memory должен быть объявлен ВНУТРИ memorize. Если внутри неё объявить пустой массив, то результаты вызова будут обнуляться. Как обойти это? Подскажите, пожалуйста)
+  let memory = []; 
   
   return function(...args) {
     
@@ -71,12 +75,11 @@ function memorize(fn, limit) {
       if (memory.length === limit) memory.splice(0,1, {args: args, result: fn(...args)})
       else memory.push({args: args, result: fn(...args)});
     }
-    
+    console.log(memory);
     return memory.find((element) => compareArrays(element.args, args)).result;
   }
 }
 
-// Задача 2 имеет 2 варианта задания, но, как мне показалось, отрабатывающих одни и те же навыки, просто написанные разным языком. Есть смысл делать альтернативный вариант?
 
 // Задача 3
 
@@ -85,9 +88,6 @@ function testCase(testFunction, timer) {
   console.time(timer);
   for (let i = 0; i <= 100; i++) {
     fnArgs.forEach(element => testFunction.apply(null, element));
-    console.timeEnd(timer);
   }
+  console.timeEnd(timer);
 }
-
-// С "задержкой" в sum 504,3ms, mSum 302,7ms.
-// Без "задержки" 0.086ms sum, 0.2712ms mSum. Довольно странный результат, не знаю с чем связать последнее значение.
