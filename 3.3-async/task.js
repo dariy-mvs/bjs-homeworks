@@ -29,23 +29,26 @@ class AlarmClock {
   }
 
   getCurrentFormattedTime() {
-    return (new Date().getHours() < 10) ? `0${new Date().getHours()}:${new Date().getMinutes()}` : `${new Date().getHours()}:${new Date().getMinutes()}`;
+    const hours = new Date().getHours() < 10 ?  `0${new Date().getHours()}` : `${new Date().getHours()}`;
+    const minutes = new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : `${new Date().getMinutes()}`;
+    return `${hours}:${minutes}`
   }
 
   start() {
-    function checkClock(arr) {
-      if(getCurrentFormattedTime() === arr.time) {
+     let checkClock = (arr) => {
+      if(this.getCurrentFormattedTime() === arr.time) {
         return arr.func();
       }
     }
-  if (this.timerId === undefined) { //изначально в этой строке стояло сравнение с null. И, естественно, выходила ошибка. Замена на undefined произошла случайно, и, неожиданно для меня, всё заработало как надо. Возможно вопрос глупый, но лучше его задать, чем не задать: почему? Изначально в свойстве указан null, и было бы логично сравнение с ним. Но тогда не определяется функция getCurrentFormattedTime. Не понимаю взаимосвязи. Благодарю за пояснения!)
-    this.timerId = setInterval(this.alarmCollection.forEach(element => checkClock(element)), 1000);
+  if (this.timerId === null) { 
+    this.timerId = setInterval(() => this.alarmCollection.forEach(element => checkClock(element)), 1000);
     }
   }
 
   stop() {
     if(this.timerId !== null) {
       clearInterval(this.timerId);
+      this.timerId = null;
     }
   }
 
@@ -54,7 +57,7 @@ class AlarmClock {
   }
 
   clearAlarms() {
-    stop();
+    this.stop();
     this.alarmCollection = [];
   }
 }
