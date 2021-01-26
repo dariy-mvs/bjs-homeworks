@@ -12,7 +12,7 @@ class AlarmClock {
     if(id === undefined) {
       throw new Error('where my id?');
     };
-    if(this.alarmCollection.filter(element => element.id === id).length === 1) {
+    if(this.alarmCollection.some(element => element.id === id)) {
       console.error('such id already exists');
     } else {
       this.alarmCollection.push({time, func, id})
@@ -20,18 +20,18 @@ class AlarmClock {
   }
 
   removeClock(id) {
-    const findId = this.alarmCollection.findIndex(element => element.id === id);
-    console.log(findId);
-    if(findId.length !== -1) {
-       this.alarmCollection.splice([findId],1);
-      return true;} else return false;
+    const initLength = this.alarmCollection.length;
+    this.alarmCollection = this.alarmCollection.filter(element => element.id !== id);
+    return this.alarmCollection.length === initLength;
     
   }
 
   getCurrentFormattedTime() {
-    const hours = new Date().getHours() < 10 ?  `0${new Date().getHours()}` : `${new Date().getHours()}`;
-    const minutes = new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : `${new Date().getMinutes()}`;
-    return `${hours}:${minutes}`
+    const addLeadingZero = time => time < 10 ? `0${time}` : `${time}`;
+    const hours = addLeadingZero(new Date().getHours());
+    const minutes = addLeadingZero(new Date().getMinutes());
+  
+    return `${hours}:${minutes}`;
   }
 
   start() {
@@ -40,7 +40,7 @@ class AlarmClock {
         return arr.func();
       }
     }
-  if (this.timerId === null) { 
+    if (this.timerId === null) { 
     this.timerId = setInterval(() => this.alarmCollection.forEach(element => checkClock(element)), 1000);
     }
   }
